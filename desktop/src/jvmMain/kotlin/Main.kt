@@ -19,6 +19,12 @@ fun main() = application {
         title = "",
         state = rememberWindowState(width = 300.dp, height = 300.dp),) {
 
+
+        // ----------------------------------------------------------------------------
+
+        /**
+         * Snippet for extending macOs window to fullwindow without titlebar and colored background
+         */
         val dark = darkColors()
         this.window.background = java.awt.Color(dark.background.red, dark.background.green, dark.background.blue)
 
@@ -27,9 +33,10 @@ fun main() = application {
             this.window.rootPane.putClientProperty("apple.awt.transparentTitleBar", true)
         }
 
+        // ----------------------------------------------------------------------------
+
         Column {
             Spacer(Modifier.height(10.dp))
-            DropdownDemo()
 
             MacTheme(typography = Typography()) {
 
@@ -42,7 +49,9 @@ fun main() = application {
                     "Indigo",
                     "Kinda brownish gray",
                 )
+
                 var selectedIndex1 by remember { mutableStateOf(0) }
+
                 MacDropdownMenu(
                     menuItems,
                     selectedIndex1,
@@ -55,37 +64,5 @@ fun main() = application {
         }
 
 
-    }
-}
-
-@Composable
-fun DropdownDemo() {
-    var expanded by remember { mutableStateOf(false) }
-    val items = listOf("A", "B", "C", "D", "E", "F")
-    val disabledValue = "B"
-    var selectedIndex by remember { mutableStateOf(0) }
-    Box(modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.TopStart)) {
-        Text(items[selectedIndex],modifier = Modifier.fillMaxWidth().clickable(onClick = { expanded = true }).background(
-            Color.Gray))
-        DropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-            modifier = Modifier.fillMaxWidth().background(
-                Color.Red)
-        ) {
-            items.forEachIndexed { index, s ->
-                DropdownMenuItem(onClick = {
-                    selectedIndex = index
-                    expanded = false
-                }) {
-                    val disabledText = if (s == disabledValue) {
-                        " (Disabled)"
-                    } else {
-                        ""
-                    }
-                    Text(text = s + disabledText)
-                }
-            }
-        }
     }
 }
